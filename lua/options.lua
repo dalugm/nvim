@@ -1,63 +1,62 @@
 local options = {
-   -- edit --
-   -- we don't need to see things like -- INSERT -- anymore
+   -- EDIT --
+   -- We don't need to see things like -- INSERT -- anymore.
    showmode = false,
 
-   -- Turn backup off, since we use git to manage it in most cases
+   -- Turn backup off, since we use git to manage it in most cases.
    backup = false,
    writebackup = false,
-   -- creates a swapfile
+   -- Create a swapfile.
    swapfile = false,
 
-   -- enable persistent undo
+   -- Enable persistent undo.
    undofile = true,
 
-   -- allows neovim to access the system clipboard
+   -- Allow neovim to access the system clipboard.
    clipboard = "unnamed,unnamedplus",
 
-   -- smart case
-   smartcase = true,
-   -- make indenting smarter again
+   -- Make indenting smarter again.
    smartindent = true,
 
-   -- the encoding written to a file
+   -- The encoding written to a file.
    fileencoding = "utf-8",
 
-   -- highlight all matches on previous search pattern
+   -- Highlight all matches on previous search pattern.
    hlsearch = true,
-   -- ignore case in search patterns
+   -- Ignore case in search patterns.
    ignorecase = true,
+   -- Smarter case when searching.
+   smartcase = true,
 
-   -- enable mouse in TUI
+   -- Enable mouse in TUI.
    mouse = "a",
 
-   -- convert tabs to spaces
+   -- Convert tabs to spaces.
    expandtab = true,
-   -- the number of spaces inserted for each indentation
+   -- The number of spaces inserted for each indentation.
    shiftwidth = 4,
-   -- insert 4 spaces for a tab
+   -- Insert 4 spaces for a tab.
    tabstop = 4,
-   -- number column width {default 4}
+   -- Number column width {default 4}.
    numberwidth = 4,
 
-   -- display lines as one long line
+   -- Display lines as one long line.
    wrap = false,
    -- Minimal number of screen lines around the cursor.
    scrolloff = 5,
    sidescrolloff = 5,
 
    -- UI --
-   -- set term gui colors (most terminals support this)
+   -- Set term gui colors (most terminals support this).
    termguicolors = true,
 
-   -- Height of the command bar
+   -- Height of the command bar.
    cmdheight = 1,
 
-   -- always show the sign column
-   -- otherwise it would shift the text each time
+   -- Always show the sign column, for debug and other plugins.
    signcolumn = "yes",
 
-   -- the font used in neovim GUI applications
+   -- Font used in neovim GUI applications.
    guifont = "LXGW WenKai Mono:h14",
 }
 
