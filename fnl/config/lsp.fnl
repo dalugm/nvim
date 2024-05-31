@@ -1,17 +1,17 @@
-;lsp loading progress
+; lsp config
 (var progress-message {:status "" :percent 0 :msg ""})
 
 (fn get-progress-message []
   progress-message)
 
 (fn progress-handler [_ msg info]
-  (let [client (vim.lsp.get_client_by_id info.client_id)] 
-    (when client 
+  (let [client (vim.lsp.get_client_by_id info.client_id)]
+    (when client
       (set progress-message.status msg.value.kind)
       (when (not= msg.value.percentage nil)
         (set progress-message.percent msg.value.percentage))
-      (if 
-        (and (not= msg.value.message nil) 
+      (if
+        (and (not= msg.value.message nil)
              (and (not= msg.token nil)
                   (not= (type (tonumber msg.token)) "number")))
         (set progress-message.msg (.. msg.token " : " msg.value.message))
