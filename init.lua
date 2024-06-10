@@ -14,7 +14,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 vim.loader.enable()
 
--- Make sure to set `mapleader` before lazy so your mappings are correct
+-- Make sure to set `mapleader` before lazy so your mappings are correct.
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 

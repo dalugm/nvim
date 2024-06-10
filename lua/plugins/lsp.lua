@@ -4,10 +4,10 @@ local function define_signs(prefix)
   local warn = (prefix .. "SignWarn")
   local info = (prefix .. "SignInfo")
   local hint = (prefix .. "SignHint")
-  vim.fn.sign_define(error, {text = "E", texthl = error})
-  vim.fn.sign_define(warn, {text = "W", texthl = warn})
-  vim.fn.sign_define(info, {text = "I", texthl = info})
-  return vim.fn.sign_define(hint, {text = "H", texthl = hint})
+  vim.fn.sign_define(error, {text = "\239\129\151", texthl = error})
+  vim.fn.sign_define(warn, {text = "\239\129\177", texthl = warn})
+  vim.fn.sign_define(info, {text = "\239\129\154", texthl = info})
+  return vim.fn.sign_define(hint, {text = "\239\129\153", texthl = hint})
 end
 define_signs("Diagnostic")
 local function _1_()
@@ -23,6 +23,7 @@ local function _1_()
   before_init = _2_
   local on_attach
   local function _3_(client, bufnr)
+    vim.lsp.inlay_hint.enable(true, {bufnr = bufnr})
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", {noremap = true})
     vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", {noremap = true})
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ld", "<Cmd>lua vim.lsp.buf.declaration()<CR>", {noremap = true})
@@ -41,7 +42,9 @@ local function _1_()
     return vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>li", ":lua require('telescope.builtin').lsp_implementations()<cr>", {noremap = true})
   end
   on_attach = _3_
-  lsp.rust_analyzer.setup({})
-  return lsp.clojure_lsp.setup({on_attach = on_attach, handlers = handlers, before_init = before_init, capabilities = capabilities})
+  lsp.clojure_lsp.setup({on_attach = on_attach, handlers = handlers, before_init = before_init, capabilities = capabilities})
+  lsp.rust_analyzer.setup({on_attach = on_attach, handlers = handlers, before_init = before_init, capabilities = capabilities})
+  lsp.tsserver.setup({on_attach = on_attach, handlers = handlers, before_init = before_init, capabilities = capabilities})
+  return lsp.zls.setup({on_attach = on_attach, handlers = handlers, before_init = before_init, capabilities = capabilities})
 end
-return {{"neovim/nvim-lspconfig", config = _1_}}
+return {{"neovim/nvim-lspconfig", event = {"BufReadPre", "BufNewFile"}, dependencies = {"hrsh7th/cmp-nvim-lsp"}, config = _1_}}

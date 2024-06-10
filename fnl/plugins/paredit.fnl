@@ -13,12 +13,12 @@
             (let [paredit-fnl (require :nvim-paredit-fennel)]
               (paredit-fnl.setup)))}
 
- {1 :kylechui/nvim-surround
-  :event "VeryLazy"
-  :config (fn []
-            (let [surround (require :nvim-surround)]
-              (surround.setup)))}
-
  {1 :windwp/nvim-autopairs
   :event "InsertEnter"
-  :opts {}}]
+  :dependencies [:hrsh7th/nvim-cmp]
+  :config (fn []
+            (let [autopairs (require :nvim-autopairs)
+                  autopairs-cmp (require :nvim-autopairs.completion.cmp)
+                  cmp (require :cmp) ]
+              (cmp.event:on :confirm_done (autopairs-cmp.on_confirm_done))
+              (autopairs.setup {:check_ts true})))}]

@@ -1,18 +1,20 @@
-; symbols to show for lsp diagnostics
+; Symbols to show for lsp diagnostics.
 (fn define-signs
   [prefix]
   (let [error (.. prefix "SignError")
         warn  (.. prefix "SignWarn")
         info  (.. prefix "SignInfo")
         hint  (.. prefix "SignHint")]
-    (vim.fn.sign_define error {:text "E" :texthl error})
-    (vim.fn.sign_define warn  {:text "W" :texthl warn})
-    (vim.fn.sign_define info  {:text "I" :texthl info})
-    (vim.fn.sign_define hint  {:text "H" :texthl hint})))
+    (vim.fn.sign_define error {:text "" :texthl error})
+    (vim.fn.sign_define warn  {:text "" :texthl warn})
+    (vim.fn.sign_define info  {:text "" :texthl info})
+    (vim.fn.sign_define hint  {:text "" :texthl hint})))
 
 (define-signs "Diagnostic")
 
 [{1 :neovim/nvim-lspconfig
+  :event ["BufReadPre" "BufNewFile"]
+  :dependencies [:hrsh7th/cmp-nvim-lsp]
   :config (fn []
             (let [lsp (require :lspconfig)
                   cmplsp (require :cmp_nvim_lsp)
@@ -36,6 +38,7 @@
                                 (set params.workDoneToken :1))
                   on_attach (fn [client bufnr]
                               (do
+                                (vim.lsp.inlay_hint.enable true {: bufnr})
                                 (vim.api.nvim_buf_set_keymap bufnr :n :gd "<Cmd>lua vim.lsp.buf.definition()<CR>" {:noremap true})
                                 (vim.api.nvim_buf_set_keymap bufnr :n :K "<Cmd>lua vim.lsp.buf.hover()<CR>" {:noremap true})
                                 (vim.api.nvim_buf_set_keymap bufnr :n :<leader>ld "<Cmd>lua vim.lsp.buf.declaration()<CR>" {:noremap true})
@@ -49,18 +52,34 @@
                                 (vim.api.nvim_buf_set_keymap bufnr :n :<leader>lk "<cmd>lua vim.diagnostic.goto_prev()<CR>" {:noremap true})
                                 (vim.api.nvim_buf_set_keymap bufnr :n :<leader>la "<cmd>lua vim.lsp.buf.code_action()<CR>" {:noremap true})
                                 (vim.api.nvim_buf_set_keymap bufnr :v :<leader>la "<cmd>lua vim.lsp.buf.range_code_action()<CR> " {:noremap true})
-                                ;telescope
+                                ; Telescope.
                                 (vim.api.nvim_buf_set_keymap bufnr :n :<leader>lw ":lua require('telescope.builtin').diagnostics()<cr>" {:noremap true})
                                 (vim.api.nvim_buf_set_keymap bufnr :n :<leader>lr ":lua require('telescope.builtin').lsp_references()<cr>" {:noremap true})
                                 (vim.api.nvim_buf_set_keymap bufnr :n :<leader>li ":lua require('telescope.builtin').lsp_implementations()<cr>" {:noremap true})))]
+
               ;; To add support to more language servers check:
               ;; https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
-              ;; Rust
-              (lsp.rust_analyzer.setup {})
-
-              ;; Clojure
+              ;; Clojure.
               (lsp.clojure_lsp.setup {:on_attach on_attach
                                       :handlers handlers
                                       :before_init before_init
-                                      :capabilities capabilities})))}]
+                                      :capabilities capabilities})
+
+              ;; Rust.
+              (lsp.rust_analyzer.setup {:on_attach on_attach
+                                        :handlers handlers
+                                        :before_init before_init
+                                        :capabilities capabilities})
+
+              ;; Typescript.
+              (lsp.tsserver.setup {:on_attach on_attach
+                                   :handlers handlers
+                                   :before_init before_init
+                                   :capabilities capabilities})
+
+              ;; Zig.
+              (lsp.zls.setup {:on_attach on_attach
+                              :handlers handlers
+                              :before_init before_init
+                              :capabilities capabilities})))}]

@@ -2,14 +2,13 @@
   {:buffer "buff"
    :conjure "conj"
    :nvim_lsp "lsp"
-   :vsnip "vsnp"
    :luasnip "lsnp"})
 
 (local cmp-srcs
   [{:name :nvim_lsp}
    {:name :conjure}
    {:name :buffer}
-   {:name :vsnip}
+   {:name :path}
    {:name :luasnip}])
 
 (fn has-words-before []
@@ -18,11 +17,11 @@
          (= (: (: (. (vim.api.nvim_buf_get_lines 0 (- line 1) line true) 1) :sub col col) :match "%s") nil))))
 
 [{1 :hrsh7th/nvim-cmp
-  :dependencies [:hrsh7th/cmp-buffer
-                 :hrsh7th/cmp-nvim-lsp
-                 :hrsh7th/cmp-vsnip
+  :event "InsertEnter"
+  :dependencies [:hrsh7th/cmp-buffer ; Source for text in buffer.
+                 :hrsh7th/cmp-path ; Source for file system path.
                  :PaterJason/cmp-conjure
-                 :L3MON4D3/LuaSnip
+                 {1 :L3MON4D3/LuaSnip :build "make install_jsregexp"}
                  :saadparwaiz1/cmp_luasnip]
   :config (fn []
             (let [cmp (require :cmp)
@@ -34,6 +33,8 @@
                                     :<C-n> (cmp.mapping.select_next_item)
                                     :<C-b> (cmp.mapping.scroll_docs (- 4))
                                     :<C-f> (cmp.mapping.scroll_docs 4)
+                                    :<M-p> (cmp.mapping.scroll_docs (- 4))
+                                    :<M-n> (cmp.mapping.scroll_docs 4)
                                     :<C-Space> (cmp.mapping.complete)
                                     :<C-e> (cmp.mapping.close)
                                     :<CR> (cmp.mapping.confirm {:behavior cmp.ConfirmBehavior.Insert
@@ -54,3 +55,4 @@
                           :snippet {:expand (fn [args]
                                               (luasnip.lsp_expand args.body))}
                           :sources cmp-srcs})))}]
+

@@ -1,5 +1,5 @@
 (local {: autoload} (require :nfnl.module))
-(local lsp (autoload :config.lsp))
+(local lsp (autoload :core.lsp))
 
 (fn lsp_connection []
   (let [message (lsp.get-progress-message)]
@@ -7,26 +7,26 @@
       ; if has progress handler and is loading
       (or (= message.status "begin")
           (= message.status "report"))
-      (.. message.msg " : " message.percent "%%")
+      (.. message.msg " : " message.percent "%% ")
 
       ; if has progress handler and finished loading
       (= message.status "end")
-      (.. "LSP")
+      ""
 
       ; if hasn't progress handler, but has connected lsp client
       (and (= message.status "")
            (not (vim.tbl_isempty (vim.lsp.buf_get_clients 0))))
-      (.. "CONN")
+      ""
 
       ; else
-      (.. ""))))
+      "")))
 
 [{1 :nvim-lualine/lualine.nvim
   :config (fn []
             (let [lualine (require :lualine)]
               (lualine.setup
                 {:options {:theme "auto"
-                           :icons_enabled false
+                           :icons_enabled true
                            :section_separators ""
                            :component_separators ""}
                  :sections {:lualine_a []
