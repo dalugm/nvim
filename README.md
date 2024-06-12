@@ -10,11 +10,11 @@ Require neovim > 0.9.0, based on [fennel] and [nfnl].
 
 For unix
 
-    git clone https://github.com/dalugm/nvimrc.git $HOME/.config/nvim
+    git clone https://github.com/dalugm/nvim.git $HOME/.config/nvim
 
 For windows
 
-    git clone https://github.com/dalugm/nvimrc.git $HOME/AppData/local/nvim
+    git clone https://github.com/dalugm/nvim.git $HOME/AppData/Local/nvim
 
 [fennel]: https://fennel-lang.org
 [nfnl]: https://github.com/Olical/nfnl
