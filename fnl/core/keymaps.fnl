@@ -2,8 +2,8 @@
 (vim.keymap.set :n :<space> :<nop> {:noremap true})
 
 (vim.keymap.set :n :<localleader>dd "<cmd>cd %:h<CR>" {:desc "Change cwd to current file"})
-(vim.keymap.set :n :<localleader>w vim.cmd.write {:desc "Write current file"})
-(vim.keymap.set :n :<localleader>Q vim.cmd.quitall {:desc "Quit"})
+(vim.keymap.set [:n :v] :<localleader>w vim.cmd.write {:desc "Write current file"})
+(vim.keymap.set [:n :v] :<localleader>Q vim.cmd.quitall {:desc "Quit"})
 
 (vim.keymap.set :t :jk :<C-\><C-N> {:desc "Exit terminal INSERT mode"})
 
@@ -13,7 +13,7 @@
 (vim.keymap.set :n :<localleader>xl vim.cmd.lopen {:desc "Location list"})
 (vim.keymap.set :n :<localleader>xq vim.cmd.copen {:desc "Quickfix list"})
 (vim.keymap.set :n :<localleader>bb "<cmd>e #<CR>" {:desc "Switch to current buffer"})
-(vim.keymap.set [:i :n] :<C-x><C-s> vim.cmd.update {:desc "Save buffer"})
+(vim.keymap.set [:i :n :v] :<C-x><C-s> vim.cmd.update {:desc "Save buffer"})
 
 ; Window.
 (vim.keymap.set :n :<M-j> :<C-w>j {:desc "Move cursor to the downside window"})
@@ -76,7 +76,14 @@
                                 nil))
     (fn [] (go {: severity}))))
 
-(vim.keymap.set :n :<localleader>xd vim.diagnostic.open_float {:desc "Line Diagnostics"})
+(fn diagnostic-toggle []
+  "Toggle diagnostic show."
+  (if (vim.diagnostic.is_enabled)
+    (vim.diagnostic.disable)
+    (vim.diagnostic.enable)))
+
+(vim.keymap.set :n :<localleader>xD diagnostic-toggle {:desc "Toggle Diagnostics"})
+(vim.keymap.set :n :<localleader>xd vim.diagnostic.open_float {:desc "Display Diagnostics"})
 (vim.keymap.set :n "]d" (diagnostic_goto true)  {:desc "Next Diagnostic"})
 (vim.keymap.set :n "[d" (diagnostic_goto false) {:desc "Prev Diagnostic"})
 (vim.keymap.set :n "]e" (diagnostic_goto true  :ERROR) {:desc "Next Error"})

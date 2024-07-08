@@ -47,6 +47,7 @@ local function _2_()
     return vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>li", "<cmd>lua require('telescope.builtin').lsp_implementations()<CR>", {noremap = true})
   end
   on_attach = _4_
+  lsp.clangd.setup({on_attach = on_attach, handlers = handlers, before_init = before_init, capabilities = capabilities, autostart = false})
   lsp.clojure_lsp.setup({on_attach = on_attach, handlers = handlers, before_init = before_init, capabilities = capabilities, autostart = false})
   lsp.nixd.setup({on_attach = on_attach, handlers = handlers, before_init = before_init, capabilities = capabilities, autostart = false})
   lsp.rust_analyzer.setup({on_attach = on_attach, handlers = handlers, before_init = before_init, capabilities = capabilities, autostart = false})
