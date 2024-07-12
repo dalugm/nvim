@@ -2,7 +2,7 @@
 local function _1_()
   local conform = require("conform")
   vim.keymap.set({"n", "v"}, "<leader>cf", conform.format, {desc = "Code format"})
-  vim.keymap.set({"n", "v"}, "<leader>cF", "<cmd>ConformInfo<CR>", {desc = "Code format info"})
+  vim.keymap.set({"n", "v"}, "<leader>cF", "<Cmd>ConformInfo<CR>", {desc = "Code format info"})
   return conform.setup({formatters = {cljfmt = {command = "cljfmt", args = {"fix", "-"}}}, formatters_by_ft = {c = {"clang-format"}, clojure = {"cljfmt"}, cpp = {"clang-format"}, css = {"prettier"}, html = {"prettier"}, javascript = {"prettier"}, javascriptreact = {"prettier"}, json = {"prettier"}, markdown = {"prettier"}, rust = {"rustfmt"}, typescript = {"prettier"}, typescriptreact = {"prettier"}, vue = {"prettier"}, zig = {"zigfmt"}}})
 end
 local function _2_()

@@ -1,2 +1,2 @@
 lua/**/*.lua linguist-generated
-etc/luasnip/snippets/** linguist-vendored
+snippets/** linguist-vendored

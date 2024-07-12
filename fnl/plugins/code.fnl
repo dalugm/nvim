@@ -9,7 +9,7 @@
   :config #(let [conform (require :conform)]
 
              (vim.keymap.set [:n :v] :<leader>cf conform.format {:desc "Code format"})
-             (vim.keymap.set [:n :v] :<leader>cF :<cmd>ConformInfo<CR> {:desc "Code format info"})
+             (vim.keymap.set [:n :v] :<leader>cF :<Cmd>ConformInfo<CR> {:desc "Code format info"})
 
              (conform.setup
                {:formatters {:cljfmt {:command :cljfmt :args [:fix :-]}}

@@ -1,18 +1,21 @@
 ; Space is reserved to be leader key.
 (vim.keymap.set :n :<space> :<nop> {:noremap true})
 
-(vim.keymap.set :n :<localleader>dd "<cmd>cd %:h<CR>" {:desc "Change cwd to current file"})
+(vim.keymap.set :n :<localleader>cd "<Cmd>tcd %:h<CR>" {:desc "Change cwd to current file"})
+(vim.keymap.set :n :<localleader>dd "<Cmd>verbose pwd<CR>" {:desc "pwd"})
+
 (vim.keymap.set [:n :v] :<localleader>w vim.cmd.write {:desc "Write current file"})
 (vim.keymap.set [:n :v] :<localleader>Q vim.cmd.quitall {:desc "Quit"})
 
 (vim.keymap.set :t :jk :<C-\><C-N> {:desc "Exit terminal INSERT mode"})
 
-; Buffer.
-(vim.keymap.set :n :<leader>bd "<cmd>bp<bar>bd #<CR>" {:desc "Delete current buffer"})
-(vim.keymap.set :n :<localleader>xx "<cmd>bp<bar>bd #<CR>" {:desc "Delete current buffer"})
 (vim.keymap.set :n :<localleader>xl vim.cmd.lopen {:desc "Location list"})
 (vim.keymap.set :n :<localleader>xq vim.cmd.copen {:desc "Quickfix list"})
-(vim.keymap.set :n :<localleader>bb "<cmd>e #<CR>" {:desc "Switch to current buffer"})
+
+; Buffer.
+(vim.keymap.set :n :<leader>bd "<Cmd>bp<bar>bd #<CR>" {:desc "Delete current buffer"})
+(vim.keymap.set :n :<localleader>xx "<Cmd>bp<bar>bd #<CR>" {:desc "Delete current buffer"})
+(vim.keymap.set :n :<localleader>bb "<Cmd>e #<CR>" {:desc "Switch to prev buffer"})
 (vim.keymap.set [:i :n :v] :<C-x><C-s> vim.cmd.update {:desc "Save buffer"})
 
 ; Window.
@@ -36,8 +39,13 @@
 (vim.keymap.set :n :<leader>tx vim.cmd.tabclose {:desc "Close current tab"})
 (vim.keymap.set :n :<leader>tn vim.cmd.tabn {:desc "Go to next tab"})
 (vim.keymap.set :n :<leader>tp vim.cmd.tabp {:desc "Go to previous tab"})
-(vim.keymap.set :n :<leader>tf "<cmd>tabnew %<CR>" {:desc "Open current buffer in new tab"})
-(vim.keymap.set :n :<leader>tt "<cmd>tab terminal<CR>" {:desc "Toggle terminal in tab"})
+(vim.keymap.set :n :<leader>tf "<Cmd>tabnew %<CR>" {:desc "Open current buffer in new tab"})
+(vim.keymap.set :n :<leader>tt "<Cmd>tab terminal<CR>" {:desc "Toggle terminal in tab"})
+
+(vim.keymap.set :n :<leader>th #(vim.cmd.tabmove :-) {:desc "move tab left"})
+(vim.keymap.set :n :<leader>tl #(vim.cmd.tabmove :+) {:desc "move tab right"})
+(vim.keymap.set :n :<leader>ta #(vim.cmd.tabmove :0) {:desc "move tab first"})
+(vim.keymap.set :n :<leader>te #(vim.cmd.tabmove :$) {:desc "move tab last"})
 
 ; Readline like behavior.
 (vim.keymap.set [:c :i] :<C-a> :<Home> {:desc "Bol"})
@@ -65,8 +73,8 @@
 (vim.keymap.set :n "[T" vim.cmd.tabfirst {:desc "First tab"})
 (vim.keymap.set :n "]T" vim.cmd.tablast {:desc "Last tab"})
 
-(vim.keymap.set :n "[<space>" "<cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>" {:desc "Blank above"})
-(vim.keymap.set :n "]<space>" "<cmd>call append(line('.'),     repeat([''], v:count1))<CR>" {:desc "Blank below"})
+(vim.keymap.set :n "[<space>" "<Cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>" {:desc "Blank above"})
+(vim.keymap.set :n "]<space>" "<Cmd>call append(line('.'),     repeat([''], v:count1))<CR>" {:desc "Blank below"})
 
 ;; Diagnostic.
 (fn diagnostic-goto [next severity]
