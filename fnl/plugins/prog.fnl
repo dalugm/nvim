@@ -32,6 +32,7 @@
                  :clojure [:cljfmt]
                  :cpp [:clang-format]
                  :css [:prettier]
+                 :dart [:dart_format]
                  :haskell [:ormolu]
                  :html [:prettier]
                  :go [:gofmt]

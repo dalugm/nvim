@@ -79,6 +79,13 @@
                                      :before_init before_init
                                      :capabilities capabilities})
 
+             ; Dart.
+             (lsp.dartls.setup {:autostart false
+                                :on_attach on_attach
+                                :handlers handlers
+                                :before_init before_init
+                                :capabilities capabilities})
+
              ; Golang.
              (lsp.gopls.setup {:autostart false
                                :on_attach on_attach
