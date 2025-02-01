@@ -13,6 +13,11 @@ vim.g.netrw_liststyle = 3
 require("core.keymaps")
 if (vim.uv.os_uname().sysname == "Windows_NT") then
   vim.o.shell = (((vim.fn.executable("pwsh") == 1) and "pwsh") or ((vim.fn.executable("powershell") == 1) and "powershell") or vim.o.shell)
+  vim.o.shellquote = ""
+  vim.o.shellxquote = ""
+  vim.o.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command "
+  vim.o.shellpipe = "| Out-File -Encoding UTF8 %s"
+  vim.o.shellredir = "| Out-File -Encoding UTF8 %s"
 else
 end
 if vim.fn.has("gui_running") then
