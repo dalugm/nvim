@@ -32,7 +32,7 @@ local function _4_()
   local conform = require("conform")
   vim.keymap.set({"n", "v"}, "<Leader>cf", conform.format, {desc = "Code format"})
   vim.keymap.set({"n", "v"}, "<Leader>cF", "<Cmd>ConformInfo<CR>", {desc = "Code format info"})
-  return conform.setup({formatters = {["google-java-format"] = {prepend_args = {"--aosp"}}}, formatters_by_ft = {["*"] = {"trim_whitespace"}, c = {"clang-format"}, cs = {"csharpier"}, clojure = {"cljfmt"}, cpp = {"clang-format"}, css = {"prettier"}, dart = {"dart_format"}, haskell = {"ormolu"}, html = {"prettier"}, go = {"gofmt"}, java = {"google-java-format"}, javascript = {"prettier"}, javascriptreact = {"prettier"}, json = {"prettier"}, lua = {"stylua"}, markdown = {"prettier"}, nix = {"nixfmt"}, python = {"ruff_format"}, rust = {"rustfmt"}, scala = {"scalafmt"}, toml = {"taplo"}, typescript = {"prettier"}, typescriptreact = {"prettier"}, typst = {"typstyle"}, vue = {"prettier"}, zig = {"zigfmt"}}})
+  return conform.setup({formatters = {["google-java-format"] = {prepend_args = {"--aosp"}}}, formatters_by_ft = {["*"] = {"trim_whitespace"}, c = {"clang-format"}, cs = {"csharpier"}, clojure = {"cljfmt"}, cpp = {"clang-format"}, css = {"prettier"}, dart = {"dart_format"}, haskell = {"ormolu"}, html = {"prettier"}, go = {"gofmt"}, java = {"google-java-format"}, javascript = {"prettier"}, javascriptreact = {"prettier"}, json = {"prettier"}, jsonc = {"prettier"}, lua = {"stylua"}, markdown = {"prettier"}, nix = {"nixfmt"}, python = {"ruff_format"}, rust = {"rustfmt"}, scala = {"scalafmt"}, toml = {"taplo"}, typescript = {"prettier"}, typescriptreact = {"prettier"}, typst = {"typstyle"}, vue = {"prettier"}, zig = {"zigfmt"}}})
 end
 local function _5_()
   local lint = require("lint")
