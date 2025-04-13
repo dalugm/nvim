@@ -1,19 +1,8 @@
 -- [nfnl] Compiled from fnl/plugins/lsp.fnl by https://github.com/Olical/nfnl, do not edit.
-local function define_signs(prefix)
-  local error = (prefix .. "SignError")
-  local warn = (prefix .. "SignWarn")
-  local info = (prefix .. "SignInfo")
-  local hint = (prefix .. "SignHint")
-  vim.fn.sign_define(error, {text = "\239\129\151", texthl = error})
-  vim.fn.sign_define(warn, {text = "\239\129\177", texthl = warn})
-  vim.fn.sign_define(info, {text = "\239\129\154", texthl = info})
-  return vim.fn.sign_define(hint, {text = "\239\129\153", texthl = hint})
-end
-define_signs("Diagnostic")
 local function _1_()
   vim.keymap.set("n", "<Leader>ll", vim.cmd.LspStart, {desc = "Start LSP"})
   local function _2_()
-    return vim.cmd.checkhealth("lspconfig")
+    return vim.cmd.checkhealth("vim.lsp")
   end
   vim.keymap.set("n", "<Leader>lI", _2_, {desc = "LSP Info"})
   vim.keymap.set("n", "<Leader>lR", vim.cmd.LspRestart, {desc = "Restart LSP"})

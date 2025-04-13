@@ -55,7 +55,7 @@ end
 local function _7_()
   local grug = require("grug-far")
   local ext = ((vim.bo.buftype == "") and vim.fn.expand("%:e"))
-  return grug.grug_far({prefills = {filesFilter = (((ext and (ext ~= "")) and ("*." .. ext)) or nil)}, transient = true})
+  return grug.open({prefills = {filesFilter = (((ext and (ext ~= "")) and ("*." .. ext)) or nil)}, transient = true})
 end
 local function _8_()
   return require("todo-comments").jump_prev()
