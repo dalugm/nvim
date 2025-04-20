@@ -132,6 +132,22 @@
 
              ; Typescript.
              (lsp.ts_ls.setup {:autostart false
+                               :init_options {:plugins [{:name "@vue/typescript-plugin"
+                                                         :location ""
+                                                         :languages [:javascript
+                                                                     :javascriptreact
+                                                                     :javascript.jsx
+                                                                     :typescript
+                                                                     :typescriptreact
+                                                                     :typescript.tsx
+                                                                     :vue]}]}
+                               :filetypes [:javascript
+                                           :javascriptreact
+                                           :javascript.jsx
+                                           :typescript
+                                           :typescriptreact
+                                           :typescript.tsx
+                                           :vue]
                                :on_attach on_attach
                                :handlers handlers
                                :before_init before_init
@@ -144,6 +160,13 @@
                                   :handlers handlers
                                   :before_init before_init
                                   :capabilities capabilities})
+
+             ; Vue.
+             (lsp.volar.setup {:autostart false
+                               :on_attach on_attach
+                               :handlers handlers
+                               :before_init before_init
+                               :capabilities capabilities})
 
              ; Zig.
              (lsp.zls.setup {:autostart false
