@@ -1,4 +1,4 @@
--- [nfnl] Compiled from fnl/plugins/utils.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] fnl/plugins/utils.fnl
 local function _1_()
   local telescope = require("telescope")
   local builtin = require("telescope.builtin")

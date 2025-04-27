@@ -1,4 +1,4 @@
--- [nfnl] Compiled from fnl/plugins/lsp.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] fnl/plugins/lsp.fnl
 local function _1_()
   vim.keymap.set("n", "<Leader>ll", vim.cmd.LspStart, {desc = "Start LSP"})
   local function _2_()

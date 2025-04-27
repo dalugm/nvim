@@ -58,8 +58,8 @@
                                :extensions {:file_browser {:collapse_dirs true
                                                            :mappings {:n {:g fb-actions.toggle_respect_gitignore}
                                                                       :i {:<C-G> fb-actions.toggle_respect_gitignore}}}}})
-           ; Load extensions after setup function to make extensions work.
-           (telescope.load_extension :file_browser))}
+             ; Load extensions after setup function to make extensions work.
+             (telescope.load_extension :file_browser))}
 
  {1 :natecraddock/workspaces.nvim
   :dependencies [:nvim-telescope/telescope.nvim]
