@@ -1,4 +1,4 @@
--- [nfnl] Compiled from fnl/plugins/ui.fnl by https://github.com/Olical/nfnl, do not edit.
+-- [nfnl] fnl/plugins/ui.fnl
 local function _1_()
   local icons = require("mini.icons")
   local function _2_()
