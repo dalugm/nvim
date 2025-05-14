@@ -146,6 +146,10 @@
         "path": "./snippets/markdown.json"
       },
       {
+        "language": "odin",
+        "path": "./snippets/odin.json"
+      },
+      {
         "language": "org",
         "path": "./snippets/org.json"
       },
