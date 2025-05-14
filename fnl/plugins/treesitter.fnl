@@ -38,6 +38,7 @@
                                    :markdown_inline
                                    :nix
                                    :ocaml
+                                   :odin
                                    :powershell
                                    :python
                                    :query
