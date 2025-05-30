@@ -5,11 +5,6 @@
           ; Rebind from K to <prefix>K
           (set vim.g.conjure#mapping#doc_word "K"))}
 
- {1 :bakpakin/fennel.vim
-  :lazy true
-  ; For fennel's indent, which is not supported yet in nvim-treesitter.
-  :ft :fennel}
-
  {1 :hylang/vim-hy
   :lazy true
   :ft :hy}
