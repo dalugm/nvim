@@ -6,6 +6,10 @@
         "path": "./snippets/c.json"
       },
       {
+        "language": "c3",
+        "path": "./snippets/c3.json"
+      },
+      {
         "language": "cpp",
         "path": "./snippets/cpp.json"
       },
