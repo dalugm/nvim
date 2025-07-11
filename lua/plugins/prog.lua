@@ -55,9 +55,10 @@ local function _5_()
   end
   vim.api.nvim_create_autocmd("LspAttach", {callback = _6_, desc = "On LSP Attach"})
   vim.lsp.config("*", {capabilities = cmplsp.default_capabilities()})
-  vim.lsp.config("ts_ls", {init_options = {plugins = {{name = "@vue/typescript-plugin", location = "/path/to/node_modules/@vue/typescript-plugin", languages = {"javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue"}}}}, filetypes = {"javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue"}})
-  vim.lsp.config("volar", {})
-  return vim.lsp.enable({"clangd", "gopls", "hls", "ocamllsp", "rust_analyzer", "ts_ls", "vue_ls", "zls"})
+  local vue_language_server_path = "/path/to/@vue/language-server"
+  local vue_plugin = {name = "@vue/typescript-plugin", location = vue_language_server_path, languages = {"vue"}, configNamespace = "typescript"}
+  vim.lsp.config("vtsls", {settings = {vtsls = {tsserver = {globalPlugins = {vue_plugin}}}}, filetypes = {"javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue"}})
+  return vim.lsp.enable({"clangd", "gopls", "hls", "ocamllsp", "rust_analyzer", "vtsls", "vue_ls", "zls"})
 end
 local function _7_()
   local treesitter = require("nvim-treesitter")

@@ -115,26 +115,26 @@
              ; Default configuration for all clients.
              (vim.lsp.config :* {:capabilities (cmplsp.default_capabilities)})
 
-             ; Typescript.
-             (vim.lsp.config :ts_ls
-                             {:init_options {:plugins [{:name "@vue/typescript-plugin"
-                                                        :location "/path/to/node_modules/@vue/typescript-plugin"
-                                                        :languages [:javascript :javascriptreact :javascript.jsx
-                                                                    :typescript :typescriptreact :typescript.tsx
-                                                                    :vue]}]}
-                              :filetypes [:javascript :javascriptreact :javascript.jsx
-                                          :typescript :typescriptreact :typescript.tsx
-                                          :vue]})
-
-             ; Vue.
-             (vim.lsp.config :volar {})
+             ; Add vue support for vtsls.
+             (local vue-language-server-path "/path/to/@vue/language-server")
+             (local vue-plugin {:name "@vue/typescript-plugin"
+                                :location vue-language-server-path
+                                :languages [:vue]
+                                :configNamespace :typescript})
+             (vim.lsp.config
+               :vtsls
+               {:settings {:vtsls {:tsserver {:globalPlugins [vue-plugin]}}}
+                :filetypes [:javascript :javascriptreact :javascript.jsx
+                            :typescript :typescriptreact :typescript.tsx
+                            :vue]})
 
              (vim.lsp.enable [:clangd
                               :gopls
                               :hls
                               :ocamllsp
                               :rust_analyzer
-                              :ts_ls :vue_ls
+                              :vtsls
+                              :vue_ls
                               :zls]))}
 
  {1 :nvim-treesitter/nvim-treesitter
