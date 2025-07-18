@@ -14,10 +14,8 @@
 
  {1 :NeogitOrg/neogit
   :dependencies [:nvim-lua/plenary.nvim
-                 :sindrets/diffview.nvim
-                 :nvim-telescope/telescope.nvim]
+                 :sindrets/diffview.nvim]
   :config #(let [neogit (require :neogit)]
-             (vim.keymap.set :n :<Leader>gc #(neogit.open [:commit]) {:desc "Open commit popup"})
              (vim.keymap.set :n :<Leader>gn neogit.open {:desc "Neogit status"})
              (vim.keymap.set :n :<Leader>gg #(neogit.open {:cwd :%:p:h}) {:desc "Current buffer Neogit status"})
              (neogit.setup))}]

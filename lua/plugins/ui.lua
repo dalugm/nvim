@@ -9,7 +9,7 @@ local function _1_()
   return nil
 end
 local function _3_()
-  return require("telescope").extensions.notify.notify({})
+  return require("notify.integrations").pick({})
 end
 local function _4_()
   return require("notify").dismiss({silent = true, pending = true})
