@@ -1,83 +1,84 @@
-[{1 :nvim-telescope/telescope.nvim
-  :dependencies [:nvim-lua/plenary.nvim
-                 :nvim-telescope/telescope-file-browser.nvim]
-  :init #(let [telescope (require :telescope)
-               builtin (require :telescope.builtin)]
-           ; Buffer.
-           (vim.keymap.set :n :<Leader>bb builtin.buffers {:noremap true :desc "Switch buffer"})
-           (vim.keymap.set :n :<LocalLeader>bb builtin.buffers {:noremap true :desc "Switch buffer"})
-           (vim.keymap.set :n :<C-X>b builtin.buffers {:noremap true :desc "Switch buffer"})
+[{1 :ibhagwan/fzf-lua
+  :config #(let [fzf (require :fzf-lua)]
+             (fzf.register_ui_select)
 
-           ; File.
-           (vim.keymap.set :n :<LocalLeader>ff #(telescope.extensions.file_browser.file_browser {:path "%:p:h" :select_buffer true}) {:noremap true :desc "Open file browser with current buffer"})
-           (vim.keymap.set :n :<Leader>fc #(telescope.extensions.file_browser.file_browser {:path "%:p:h" :select_buffer true}) {:noremap true :desc "Open file browser with current buffer"})
-           (vim.keymap.set :n :<Leader>ff telescope.extensions.file_browser.file_browser {:noremap true :desc "Open file browser"})
-           (vim.keymap.set :n :<Leader>fr builtin.oldfiles {:noremap true :desc "Recent files"})
-           ;; Emacs style.
-           (vim.keymap.set :n :<C-X><C-F> #(telescope.extensions.file_browser.file_browser {:path "%:p:h" :select_buffer true}) {:noremap true :desc "Find file"})
+             ; Buffer.
+             (vim.keymap.set :n :<Leader>bb fzf.buffers {:noremap true :desc "Switch buffer"})
+             (vim.keymap.set :n :<LocalLeader>bb fzf.buffers {:noremap true :desc "Switch buffer"})
+             (vim.keymap.set :n :<C-X>b fzf.buffers {:noremap true :desc "Switch buffer"})
 
-           ; Git.
-           (vim.keymap.set :n :<Leader>gt builtin.git_status {:noremap true :desc "Git status"})
+             ; File.
+             (vim.keymap.set :n :<LocalLeader>ff #(fzf.files {:cwd "%:p:h"}) {:noremap true :desc "Open file browser with current buffer"})
+             (vim.keymap.set :n :<Leader>fc #(fzf.files {:cwd "%:p:h"}) {:noremap true :desc "Open file browser with current buffer"})
+             (vim.keymap.set :n :<Leader>ff fzf.files {:noremap true :desc "Open file browser"})
+             (vim.keymap.set :n :<Leader>fr fzf.oldfiles {:noremap true :desc "Recent files"})
+             ;; Emacs style.
+             (vim.keymap.set :n :<C-X><C-F> #(fzf.files {:cwd "%:p:h"}) {:noremap true :desc "Find file"})
 
-           ; Search.
-           (vim.keymap.set :n :<Leader>sc builtin.grep_string {:noremap true :desc "Find string under cursor"})
-           (vim.keymap.set :n :<Leader>sf builtin.find_files {:noremap true :desc "Find file"})
-           (vim.keymap.set :n :<Leader>sg builtin.live_grep {:noremap true :desc "Grep"})
-           (vim.keymap.set :n :<Leader>ss builtin.current_buffer_fuzzy_find {:noremap true :desc "Search buffer"})
+             ; Git.
+             (vim.keymap.set :n :<Leader>gc fzf.git_commits {:noremap true :desc "Git commits"})
+             (vim.keymap.set :n :<Leader>gf fzf.git_files {:noremap true :desc "Git files"})
+             (vim.keymap.set :n :<Leader>gs fzf.git_status {:noremap true :desc "Git status"})
+             (vim.keymap.set :n :<Leader>gt fzf.git_status {:noremap true :desc "Git status"})
 
-           (vim.keymap.set :n :<LocalLeader>ss builtin.current_buffer_fuzzy_find {:noremap true :desc "Search buffer"})
-           (vim.keymap.set :n :<LocalLeader>gg builtin.live_grep {:noremap true :desc "Grep"})
+             ; Search.
+             (vim.keymap.set :n :<Leader>sc fzf.grep_cword {:noremap true :desc "Find string under cursor"})
+             (vim.keymap.set :v :<Leader>sc fzf.grep_visual {:noremap true :desc "Search selected text"})
+             (vim.keymap.set :n :<Leader>sf fzf.files {:noremap true :desc "Find file"})
+             (vim.keymap.set :n :<Leader>sg fzf.live_grep {:noremap true :desc "Grep"})
+             (vim.keymap.set :n :<Leader>ss fzf.grep_curbuf {:noremap true :desc "Search buffer"})
+             (vim.keymap.set :v :<Leader>ss fzf.grep_visual {:noremap true :desc "Search selected text"})
+             (vim.keymap.set :n :<Leader>sd fzf.zoxide {:noremap true :desc "Recent directories"})
+             (vim.keymap.set :n :<Leader>sp fzf.global {:noremap true :desc "Global pickers"})
 
-           ; View.
-           (vim.keymap.set :n :<Leader>v: builtin.commands {:noremap true :desc "Commands"})
-           (vim.keymap.set :n :<Leader>vc builtin.colorscheme {:noremap true :desc "Colorscheme"})
-           (vim.keymap.set :n :<Leader>vh builtin.help_tags {:noremap true :desc "Help tags"})
-           (vim.keymap.set :n :<Leader>vk builtin.keymaps {:noremap true :desc "Keymaps"})
-           (vim.keymap.set :n :<Leader>vm builtin.marks {:noremap true :desc "Marks"})
-           (vim.keymap.set :n :<Leader>vo builtin.vim_options {:noremap true :desc "Options"})
-           (vim.keymap.set :n :<Leader>vr builtin.registers {:noremap true :desc "Registers"})
-           (vim.keymap.set :n :<Leader>vt vim.cmd.TSContextToggle {:noremap true :desc "Treesitter context"}))
-  :config #(let [telescope (require :telescope)
-                 actions (require :telescope.actions)
-                 fb-actions (require :telescope._extensions.file_browser.actions)]
-             (telescope.setup {:defaults {:file_ignore_patterns [:node_modules]
-                                          :vimgrep_arguments ["rg"
-                                                              "--color=never"
-                                                              "--no-heading"
-                                                              "--with-filename"
-                                                              "--line-number"
-                                                              "--column"
-                                                              "--smart-case"
-                                                              "--iglob"
-                                                              "!.git"
-                                                              "--hidden"]}
-                               :pickers {:find_files {:find_command ["fd"
-                                                                     "--full-path"
-                                                                     "--color=never"]}
-                                         :live_grep {:mappings {:i {:<C-F> actions.to_fuzzy_refine}}}
-                                         :colorscheme {:enable_preview true}}
-                               :extensions {:file_browser {:collapse_dirs true
-                                                           :mappings {:n {:g fb-actions.toggle_respect_gitignore}
-                                                                      :i {:<C-G> fb-actions.toggle_respect_gitignore}}}}})
-             ; Load extensions after setup function to make extensions work.
-             (telescope.load_extension :file_browser))}
+             (vim.keymap.set :n :<LocalLeader>ss fzf.grep_curbuf {:noremap true :desc "Search buffer"})
+             (vim.keymap.set :n :<LocalLeader>gg fzf.live_grep {:noremap true :desc "Grep"})
+
+             ; View.
+             (vim.keymap.set :n :<Leader>v: fzf.commands {:noremap true :desc "Commands"})
+             (vim.keymap.set :n :<Leader>vc fzf.colorschemes {:noremap true :desc "Colorscheme"})
+             (vim.keymap.set :n :<Leader>vh fzf.helptags {:noremap true :desc "Help tags"})
+             (vim.keymap.set :n :<Leader>vk fzf.keymaps {:noremap true :desc "Keymaps"})
+             (vim.keymap.set :n :<Leader>vm fzf.marks {:noremap true :desc "Marks"})
+             (vim.keymap.set :n :<Leader>vr fzf.registers {:noremap true :desc "Registers"})
+
+             (fzf.setup
+               {:files {:previewer :bat}
+                :fzf_opts {:--cycle true}}))}
 
  {1 :natecraddock/workspaces.nvim
-  :dependencies [:nvim-telescope/telescope.nvim]
   :config #(let [ws (require :workspaces)
-                 ts (require :telescope)]
-
-             (ts.load_extension :workspaces)
-             (vim.keymap.set :n :<Leader>pp ts.extensions.workspaces.workspaces {:noremap true :desc "Open workspace"})
+                 fzf (require :fzf-lua)]
+             (vim.keymap.set :n :<Leader>pp
+                             #(let [workspace-list (ws.get)]
+                                (fzf.fzf_exec
+                                  (fn [cb]
+                                    (each [_ workspace (ipairs workspace-list)]
+                                      (cb workspace.name)))
+                                  {:prompt "Workspace> "
+                                   :actions {:enter {:fn (fn [selected]
+                                                           (let [workspace (. selected 1)]
+                                                             (ws.open workspace)))}
+                                             :ctrl-t {:fn (fn [selected]
+                                                            (let [workspace (. selected 1)]
+                                                              (vim.cmd.tabnew)
+                                                              (ws.open workspace)))}}
+                                   :preview (fn [item]
+                                              (let [name (. item 1)
+                                                    matches (vim.tbl_filter
+                                                              (fn [workspace] (= workspace.name name))
+                                                              workspace-list)
+                                                    matched (. matches 1)]
+                                                matched.path))}))
+                             {:noremap true :desc "Open workspace"})
 
              (vim.keymap.set :n :<Leader>pa ws.add {:noremap true :desc "Add workspace"})
              (vim.keymap.set :n :<Leader>pr ws.remove {:noremap true :desc "Remove workspace"})
              (vim.keymap.set :n :<Leader>pl ws.list_dirs {:noremap true :desc "List dirs which contain workspaces"})
              (vim.keymap.set :n :<Leader>ps ws.sync_dirs {:noremap true :desc "Sync workspaces in dir"})
 
-             (ws.setup
-               {:cd_type :tab
-                :hooks {:open ["Telescope find_files"]}}))}
+             (ws.setup {:cd_type :tab
+                        :hooks {:open ["FzfLua files"]}}))}
 
  {1 :MagicDuck/grug-far.nvim
   :opts {}
@@ -130,7 +131,7 @@
   :dependencies [:nvim-lua/plenary.nvim]
   :opts {:signs false}
   :keys [{1 "<Leader>st" :mode :n
-          2 :<Cmd>TodoTelescope<CR>
+          2 :<Cmd>TodoFzfLua<CR>
           :desc "Search todo comment"}]}
 
  {1 :folke/flash.nvim

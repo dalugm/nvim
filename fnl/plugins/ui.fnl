@@ -13,7 +13,7 @@
  ; Better vim.notify().
  {1 :rcarriga/nvim-notify
   :keys [{1 :<Leader>vl
-          2 #((. (require :telescope) :extensions :notify :notify) {})
+          2 #((. (require :notify.integrations) :pick) {})
           :desc "View logs"}
          {1 :<Leader>un
           2 #((. (require :notify) :dismiss) {:silent true :pending true})
