@@ -17,38 +17,34 @@
           :mode [:n :v]}
          {1 :<Leader>cF
           2 vim.cmd.ConformInfo
-          :desc "Code format"
+          :desc "Code format info"
           :mode [:n :v]}]
-  :opts {:formatters {:google-java-format {:prepend_args ["--aosp"]}}
-         :formatters_by_ft {:* [:trim_whitespace]
+  :opts {:formatters_by_ft {:* [:trim_whitespace]
                             :c [:clang-format]
-                            :cs [:csharpier]
                             :clojure [:cljfmt]
                             :cpp [:clang-format]
-                            :css [:prettier]
+                            :css [:prettier :eslint_d]
                             :dart [:dart_format]
                             :go [:gofmt]
                             :haskell [:ormolu]
-                            :html [:prettier]
-                            :java [:google-java-format]
-                            :javascript [:prettier]
-                            :javascript.jsx [:prettier]
-                            :javascriptreact [:prettier]
-                            :json [:prettier]
-                            :jsonc [:prettier]
+                            :html [:prettier :eslint_d]
+                            :javascript [:prettier :eslint_d]
+                            :javascript.jsx [:prettier :eslint_d]
+                            :javascriptreact [:prettier :eslint_d]
+                            :json [:prettier :eslint_d]
+                            :jsonc [:prettier :eslint_d]
                             :lua [:stylua]
-                            :markdown [:prettier]
+                            :markdown [:prettier :eslint_d]
                             :nix [:nixfmt]
                             :odin [:odinfmt]
                             :python [:ruff_format]
                             :rust [:rustfmt]
-                            :scala [:scalafmt]
                             :toml [:taplo]
-                            :typescript [:prettier]
-                            :typescript.tsx [:prettier]
-                            :typescriptreact [:prettier]
+                            :typescript [:prettier :eslint_d]
+                            :typescript.tsx [:prettier :eslint_d]
+                            :typescriptreact [:prettier :eslint_d]
                             :typst [:typstyle]
-                            :vue [:prettier]
+                            :vue [:prettier :eslint_d]
                             :zig [:zigfmt]}}}
 
  {1 :neovim/nvim-lspconfig
@@ -100,6 +96,7 @@
                             :vue]})
 
              (vim.lsp.enable [:clangd
+                              :eslint
                               :gopls
                               :hls
                               :ocamllsp
