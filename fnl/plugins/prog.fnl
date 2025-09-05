@@ -99,6 +99,7 @@
                               :eslint
                               :gopls
                               :hls
+                              :lua_ls
                               :ocamllsp
                               :rust_analyzer
                               :vtsls

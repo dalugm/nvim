@@ -33,7 +33,7 @@ local function _3_()
   local vue_language_server_path = "/path/to/@vue/language-server"
   local vue_plugin = {name = "@vue/typescript-plugin", location = vue_language_server_path, languages = {"vue"}, configNamespace = "typescript"}
   vim.lsp.config("vtsls", {settings = {vtsls = {tsserver = {globalPlugins = {vue_plugin}}}}, filetypes = {"javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue"}})
-  return vim.lsp.enable({"clangd", "eslint", "gopls", "hls", "ocamllsp", "rust_analyzer", "vtsls", "vue_ls", "zls"})
+  return vim.lsp.enable({"clangd", "eslint", "gopls", "hls", "lua_ls", "ocamllsp", "rust_analyzer", "vtsls", "vue_ls", "zls"})
 end
 local function _5_()
   local treesitter = require("nvim-treesitter")

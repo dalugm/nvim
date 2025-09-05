@@ -1,6 +1,5 @@
 ; Neovide.
 (when vim.g.neovide
-  (set vim.g.neovide_input_macos_option_key_is_meta :only_left)
 
   ; CJK input in neovide.
   (fn set_ime [args]
@@ -16,6 +15,8 @@
 
   (vim.api.nvim_create_autocmd
     [:CmdlineEnter :CmdlineLeave]
-    {:group ime_input :pattern "[/\\?]" :callback set_ime}))
+    {:group ime_input :pattern "[/\\?]" :callback set_ime})
+
+  (set vim.g.neovide_input_macos_option_key_is_meta :only_left))
 
 {}

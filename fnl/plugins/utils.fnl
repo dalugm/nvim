@@ -98,24 +98,24 @@
  {1 :echasnovski/mini.align
   :opts {}}
 
- {1 :echasnovski/mini.bufremove
- :lazy false
- :keys [{1 :<Leader>bd
-         2 #(let [bd (. (require :mini.bufremove) :delete)]
-              (if vim.bo.modified
-                  (let [choice (vim.fn.confirm
-                                 (.. "Save changes to " (vim.fn.bufname) "?")
-                                 "&Yes\n&No\n&Cancel")]
-                    (if
-                      (= choice 1) (do (vim.cmd.write) (bd 0))
-                      (= choice 2) (bd 0 true)))
-                  (bd 0)))
-         :desc "Delete buffer"}
-        {1 :<Leader>bD
-         2 #((. (require :mini.bufremove) :delete) 0 true)
-         :desc "Delete buffer (force)"}]}
+ {1 :nvim-mini/mini.bufremove
+  :lazy false
+  :keys [{1 :<Leader>bd
+          2 #(let [bd (. (require :mini.bufremove) :delete)]
+               (if vim.bo.modified
+                   (let [choice (vim.fn.confirm
+                                  (.. "Save changes to " (vim.fn.bufname) "?")
+                                  "&Yes\n&No\n&Cancel")]
+                     (if
+                       (= choice 1) (do (vim.cmd.write) (bd 0))
+                       (= choice 2) (bd 0 true)))
+                   (bd 0)))
+          :desc "Delete buffer"}
+         {1 :<Leader>bD
+          2 #((. (require :mini.bufremove) :delete) 0 true)
+          :desc "Delete buffer (force)"}]}
 
- {1 :echasnovski/mini.pairs
+ {1 :nvim-mini/mini.pairs
   :event :VeryLazy
   :opts {:modes {:insert true :command true :terminal false}
          ; Skip autopair when the cursor is inside these treesitter nodes.

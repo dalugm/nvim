@@ -1,7 +1,7 @@
 [{1 :MunifTanjim/nui.nvim
   :lazy true}
 
- {1 :echasnovski/mini.icons
+ {1 :nvim-mini/mini.icons
   :lazy true
   :opts {}
   :init #(let [icons (require :mini.icons)]
