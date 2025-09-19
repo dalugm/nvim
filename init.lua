@@ -206,7 +206,25 @@ later(function() require('mini.comment').setup() end)
 
 later(function() require('mini.pairs').setup() end)
 
-later(function() require('mini.surround').setup() end)
+later(function()
+   require('mini.surround').setup({
+      mappings = {
+         add = 'ys',
+         delete = 'ds',
+         find = 'gN',
+         find_left = 'gn',
+         highlight = 'gm',
+         replace = 'cs',
+      },
+   })
+
+   -- Remap adding surrounding to Visual mode selection
+   vim.keymap.del('x', 'ys')
+   vim.keymap.set('x', 'S', [[:<C-u>lua MiniSurround.add('visual')<CR>]], { silent = true })
+
+   -- Make special mapping for "add surrounding for line"
+   vim.keymap.set('n', 'yss', 'ys_', { remap = true })
+end)
 
 later(function()
    local miniclue = require('mini.clue')
@@ -637,6 +655,11 @@ later(function()
       'vue_ls',
       'zls',
    })
+end)
+
+later(function()
+   add({ source = 'folke/ts-comments.nvim' })
+   require('ts-comments').setup()
 end)
 
 later(function()
