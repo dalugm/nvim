@@ -290,6 +290,7 @@ later(function()
          { mode = 'n', keys = '<Leader>c', desc = '+Code' },
          { mode = 'n', keys = '<Leader>f', desc = '+File' },
          { mode = 'n', keys = '<Leader>g', desc = '+Git' },
+         { mode = 'n', keys = '<Leader>gb', desc = '+Buffer' },
          { mode = 'n', keys = '<Leader>l', desc = '+LSP' },
          { mode = 'n', keys = '<Leader>p', desc = '+Project' },
          { mode = 'n', keys = '<Leader>s', desc = '+Search' },
@@ -307,7 +308,7 @@ later(function()
    git.setup()
    vim.keymap.set('n', '<Leader>ga', git.show_at_cursor, { desc = 'Git at cursor' })
    vim.keymap.set('n', '<Leader>gd', git.show_diff_source, { desc = 'Git diff source' })
-   vim.keymap.set('n', '<Leader>gh', git.show_range_history, { desc = 'Git range history' })
+   vim.keymap.set('n', '<Leader>gr', git.show_range_history, { desc = 'Git range history' })
 end)
 
 later(function() require('mini.jump').setup() end)
@@ -411,7 +412,7 @@ later(function()
    add({ source = 'saghen/blink.cmp', checkout = 'v1.7.0' })
    require('blink.cmp').setup({
       keymap = {
-         ['<CR>'] = { 'select_and_accept', 'fallback' },
+         ['<CR>'] = { 'accept', 'fallback' },
       },
       cmdline = {
          keymap = {
@@ -458,10 +459,20 @@ later(function()
       { noremap = true, desc = 'Find file' }
    )
 
+   -- git
    vim.keymap.set('n', '<Leader>gc', fzf.git_commits, { noremap = true, desc = 'Git commits' })
    vim.keymap.set('n', '<Leader>gf', fzf.git_files, { noremap = true, desc = 'Git files' })
+   vim.keymap.set('n', '<Leader>gh', fzf.git_hunks, { noremap = true, desc = 'Hunks' })
    vim.keymap.set('n', '<Leader>gs', fzf.git_status, { noremap = true, desc = 'Git status' })
+   vim.keymap.set('n', '<Leader>gbc', fzf.git_bcommits, { noremap = true, desc = 'Git buffer commits' })
+   vim.keymap.set('n', '<Leader>gbb', fzf.git_blame, { noremap = true, desc = 'Git buffer blame' })
 
+   -- buffer
+   vim.keymap.set('n', '<Leader>bl', fzf.blines, { noremap = true, desc = 'Buffer lines' })
+   vim.keymap.set('n', '<Leader>bt', fzf.btags, { noremap = true, desc = 'Buffer tags' })
+
+   -- search
+   vim.keymap.set('n', '<Leader>sb', fzf.buffers, { noremap = true, desc = 'Find buffers' })
    vim.keymap.set('n', '<Leader>sc', fzf.grep_cword, { noremap = true, desc = 'Find string under cursor' })
    vim.keymap.set('v', '<Leader>sc', fzf.grep_visual, { noremap = true, desc = 'Search selected text' })
    vim.keymap.set('n', '<Leader>sf', fzf.files, { noremap = true, desc = 'Find file' })
@@ -470,10 +481,14 @@ later(function()
    vim.keymap.set('v', '<Leader>ss', fzf.grep_visual, { noremap = true, desc = 'Search selected text' })
    vim.keymap.set('n', '<Leader>sd', fzf.zoxide, { noremap = true, desc = 'Recent directories' })
    vim.keymap.set('n', '<Leader>sp', fzf.global, { noremap = true, desc = 'Global pickers' })
+   vim.keymap.set('n', '<Leader>st', fzf.tags, { noremap = true, desc = 'Tags' })
    vim.keymap.set('n', '<LocalLeader>ss', fzf.grep_curbuf, { noremap = true, desc = 'Search buffer' })
    vim.keymap.set('n', '<LocalLeader>gg', fzf.live_grep, { noremap = true, desc = 'Grep' })
+
+   -- view
    vim.keymap.set('n', '<Leader>v:', fzf.commands, { noremap = true, desc = 'Commands' })
    vim.keymap.set('n', '<Leader>vc', fzf.colorschemes, { noremap = true, desc = 'Colorscheme' })
+   vim.keymap.set('n', '<Leader>vf', fzf.filetypes, { noremap = true, desc = 'Filetypes' })
    vim.keymap.set('n', '<Leader>vh', fzf.helptags, { noremap = true, desc = 'Help tags' })
    vim.keymap.set('n', '<Leader>vk', fzf.keymaps, { noremap = true, desc = 'Keymaps' })
    vim.keymap.set('n', '<Leader>vm', fzf.marks, { noremap = true, desc = 'Marks' })
