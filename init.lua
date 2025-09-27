@@ -114,16 +114,16 @@ now(function()
    })
 end)
 
--- now(function()
---    local notify = require('mini.notify')
---    notify.setup()
---    vim.notify = notify.make_notify()
---    vim.api.nvim_create_user_command(
---       'NotifyHistory',
---       function() notify.show_history() end,
---       { desc = 'Show notify history' }
---    )
--- end)
+now(function()
+   local notify = require('mini.notify')
+   notify.setup()
+   vim.notify = notify.make_notify()
+   vim.api.nvim_create_user_command(
+      'NotifyHistory',
+      function() notify.show_history() end,
+      { desc = 'Show notify history' }
+   )
+end)
 
 later(function()
    local hipatterns = require('mini.hipatterns')
@@ -340,30 +340,41 @@ later(function()
 end)
 
 -- later(function()
---    require("mini.pick").setup()
---    vim.ui.select = MiniPick.ui_select
---    local builtin = MiniPick.builtin
---    vim.keymap.set("n", "<Leader>bb", builtin.buffers, { noremap = true, desc = "Switch buffer" })
---    vim.keymap.set("n", "<LocalLeader>bb", builtin.buffers, { noremap = true, desc = "Switch buffer" })
---    vim.keymap.set("n", "<C-X>b", builtin.buffers, { noremap = true, desc = "Switch buffer" })
---    vim.keymap.set("n", "<C-X><C-F>", builtin.files, { noremap = true, desc = "Find file" })
---    vim.keymap.set("n", "<Leader>sf", builtin.files, { noremap = true, desc = "Find file" })
---    vim.keymap.set("n", "<Leader>sg", builtin.grep_live, { noremap = true, desc = "Grep" })
---    vim.keymap.set("n", "<Leader>vh", builtin.help, { noremap = true, desc = "Help" })
+--    local pick = require('mini.pick')
+--    pick.setup()
+--    vim.ui.select = pick.ui_select
+--
+--    local builtin = pick.builtin
+--
+--    -- buffer
+--    vim.keymap.set('n', '<Leader>bb', builtin.buffers, { noremap = true, desc = 'Switch buffer' })
+--    vim.keymap.set('n', '<LocalLeader>bb', builtin.buffers, { noremap = true, desc = 'Switch buffer' })
+--    vim.keymap.set('n', '<C-X>b', builtin.buffers, { noremap = true, desc = 'Switch buffer' })
+--
+--    -- file
+--    vim.keymap.set('n', '<C-X><C-F>', builtin.files, { noremap = true, desc = 'Find file' })
+--    vim.keymap.set('n', '<Leader>sf', builtin.files, { noremap = true, desc = 'Find file' })
+--    vim.keymap.set('n', '<Leader>sg', builtin.grep_live, { noremap = true, desc = 'Grep' })
+--
+--    -- view
+--    vim.keymap.set('n', '<Leader>vh', builtin.help, { noremap = true, desc = 'Help' })
 -- end)
-
+--
 -- later(function()
---    require("mini.extra").setup()
---    local pickers = MiniExtra.pickers
---    vim.keymap.set("n", "<Leader>se", pickers.explorer, { noremap = true, desc = "Explorer" })
---    vim.keymap.set("n", "<Leader>ss", pickers.buf_lines, { noremap = true, desc = "Search buffer" })
---    vim.keymap.set("n", "<Leader>st", pickers.hipatterns, { noremap = true, desc = "Search todo" })
---    vim.keymap.set("n", "<Leader>gc", pickers.git_commits, { noremap = true, desc = "Git commits" })
---    vim.keymap.set("n", "<Leader>vc", pickers.colorschemes, { noremap = true, desc = "Colorscheme" })
---    vim.keymap.set("n", "<Leader>vd", pickers.diagnostic, { noremap = true, desc = "Diagnostic" })
---    vim.keymap.set("n", "<Leader>vr", pickers.registers, { noremap = true, desc = "Registers" })
---    vim.keymap.set("n", "<Leader>vk", pickers.keymaps, { noremap = true, desc = "Keymaps" })
---    vim.keymap.set("n", "<Leader>v:", pickers.commands, { noremap = true, desc = "Commands" })
+--    local extra = require('mini.extra')
+--    extra.setup()
+--    local pickers = extra.pickers
+--    vim.keymap.set('n', '<Leader>se', pickers.explorer, { noremap = true, desc = 'Explorer' })
+--    vim.keymap.set('n', '<Leader>ss', pickers.buf_lines, { noremap = true, desc = 'Search buffer' })
+--    vim.keymap.set('n', '<Leader>st', pickers.hipatterns, { noremap = true, desc = 'Search todo' })
+--    vim.keymap.set('n', '<Leader>gc', pickers.git_commits, { noremap = true, desc = 'Git commits' })
+--
+--    -- view
+--    vim.keymap.set('n', '<Leader>vc', pickers.colorschemes, { noremap = true, desc = 'Colorscheme' })
+--    vim.keymap.set('n', '<Leader>vd', pickers.diagnostic, { noremap = true, desc = 'Diagnostic' })
+--    vim.keymap.set('n', '<Leader>vr', pickers.registers, { noremap = true, desc = 'Registers' })
+--    vim.keymap.set('n', '<Leader>vk', pickers.keymaps, { noremap = true, desc = 'Keymaps' })
+--    vim.keymap.set('n', '<Leader>v:', pickers.commands, { noremap = true, desc = 'Commands' })
 -- end)
 
 now(function()
@@ -544,6 +555,7 @@ later(function()
          preview = preview,
       })
    end
+
    vim.keymap.set('n', '<Leader>pp', openws, { noremap = true, desc = 'Open workspace' })
    vim.keymap.set('n', '<Leader>pa', ws.add, { noremap = true, desc = 'Add workspace' })
    vim.keymap.set('n', '<Leader>pr', ws.remove, { noremap = true, desc = 'Remove workspace' })
@@ -722,60 +734,6 @@ later(function()
       { noremap = true, desc = 'Code format' }
    )
    vim.keymap.set('n', '<Leader>cF', vim.cmd.ConformInfo, { noremap = true, desc = 'Code format info' })
-end)
-
-later(function() add({ source = 'MunifTanjim/nui.nvim' }) end)
-
-later(function()
-   add({ source = 'rcarriga/nvim-notify' })
-   vim.keymap.set('n', '<Leader>vl', require('notify.integrations').pick, { noremap = true, desc = 'View logs' })
-   vim.keymap.set(
-      'n',
-      '<Leader>un',
-      function() require('notify').dismiss({ silent = true, pending = true }) end,
-      { noremap = true, desc = 'View logs' }
-   )
-end)
-
-later(function()
-   add({ source = 'folke/noice.nvim' })
-   require('noice').setup({
-      cmdline = {
-         format = {
-            cmdline = { icon = '>' },
-            filter = { icon = '$' },
-            help = { icon = 'H' },
-            search_down = { icon = '/' },
-            search_up = { icon = '?' },
-         },
-      },
-      lsp = {
-         -- override markdown rendering to use **Treesitter**
-         override = {
-            ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
-            ['vim.lsp.util.stylize_markdown'] = true,
-         },
-      },
-      presets = {
-         bottom_search = true,
-         command_palette = true,
-         long_message_to_split = true,
-         lsp_doc_border = false,
-      },
-      routes = {
-         {
-            view = 'notify',
-            filter = {
-               event = 'msg_showmode',
-               any = { { find = 'recording' } },
-            },
-         },
-         {
-            filter = { event = 'notify', find = 'No information available' },
-            opts = { skip = true },
-         },
-      },
-   })
 end)
 
 later(function()
