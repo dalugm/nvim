@@ -495,20 +495,38 @@ end)
 later(function()
    add({ source = 'saghen/blink.cmp', checkout = 'v1.7.0' })
    require('blink.cmp').setup({
+      -- 'default' for mappings similar to built-in completions (C-y to accept)
+      -- 'super-tab' for mappings similar to vscode (tab to accept)
+      -- 'enter' for enter to accept
+      -- 'none' for no mappings
+      --
+      -- All presets have the following mappings:
+      -- C-space: Open menu or open docs if already open
+      -- C-n/C-p or Up/Down: Select next/previous item
+      -- C-e: Hide menu
+      -- C-k: Toggle signature help (if signature.enabled = true)
+      --
+      -- See :h blink-cmp-config-keymap for defining your own keymap
       keymap = {
-         ['<CR>'] = { 'accept', 'fallback' },
+         preset = 'enter',
+
+         -- disable <C-e> since we're using readline
+         ['<C-e>'] = false,
+         -- use <C-g> instead
+         ['<C-g>'] = { 'hide', 'fallback' },
       },
+
       cmdline = {
          keymap = {
-            ['<C-g>'] = { 'cancel' },
-            -- disable a keymap from the preset
-            ['<C-e>'] = false,
+            ['<C-g>'] = { 'cancel', 'fallback' },
          },
       },
+
       sources = {
          -- 'buffer' is for text completions, by default it's only enabled when LSP returns no items
          default = { 'lsp', 'path', 'snippets', 'buffer' },
       },
+
       snippets = { preset = 'mini_snippets' },
    })
 end)
@@ -524,19 +542,20 @@ later(function()
    vim.keymap.set('n', '<Leader>pl', ws.list_dirs, { noremap = true, desc = 'List workspace dirs' })
    vim.keymap.set('n', '<Leader>ps', ws.sync_dirs, { noremap = true, desc = 'Sync workspace in dirs' })
 
-   ws.setup({ cd_type = 'tab', hooks = { open = { 'Pick files' } } })
+   ws.setup({ cd_type = 'tab', hooks = {
+      open = function() require('mini.pick').builtin.files() end,
+   } })
 end)
 
 later(function()
    add({ source = 'MagicDuck/grug-far.nvim' })
-   vim.keymap.set({ 'n', 'v' }, '<Leader>sr', function()
-      local grug = require('grug-far')
-      local ext = ((vim.bo.buftype == '') and vim.fn.expand('%:e'))
-      return grug.open({
-         prefills = { filesFilter = (((ext and (ext ~= '')) and ('*.' .. ext)) or nil) },
-         transient = true,
-      })
-   end, { noremap = true, desc = 'Search and Replace' })
+   vim.keymap.set('n', '<Leader>sr', require('grug-far').open, { noremap = true, desc = 'Search and Replace' })
+   vim.keymap.set(
+      'v',
+      '<Leader>sr',
+      require('grug-far').with_visual_selection,
+      { noremap = true, desc = 'Search and Replace' }
+   )
 end)
 
 later(function()
