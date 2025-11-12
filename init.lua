@@ -69,7 +69,11 @@ end)
 now(function()
    local icons = require('mini.icons')
    icons.setup()
-   icons.mock_nvim_web_devicons()
+
+   later(function()
+      icons.mock_nvim_web_devicons()
+      icons.tweak_lsp_kind()
+   end)
 end)
 
 now(function()
@@ -332,8 +336,9 @@ later(function() require('mini.jump').setup() end)
 later(function() require('mini.jump2d').setup() end)
 
 later(function()
-   local snp = require('mini.snippets')
+   -- Define language patterns to work better with 'friendly-snippets'
    local lang_patterns = {
+      -- Recognize language of tree-sitter parser
       tsx = {
          'snippets/ecma/javascript.json',
          'snippets/ecma/typescript.json',
@@ -343,10 +348,14 @@ later(function()
          'snippets/ecma/typescript.json',
       },
    }
+
+   local snp = require('mini.snippets')
+   local config_path = vim.fn.stdpath('config')
+
    snp.setup({
       snippets = {
          -- Load custom file with global snippets first.
-         snp.gen_loader.from_file(vim.fn.stdpath('config') .. '/snippets/snippets/all.json'),
+         snp.gen_loader.from_file(config_path .. '/snippets/snippets/all.json'),
          -- Load snippets based on current language by reading files from
          -- "snippets/" subdirectories from 'runtimepath' directories.
          snp.gen_loader.from_lang({ lang_patterns = lang_patterns }),
@@ -354,6 +363,25 @@ later(function()
       },
    })
 end)
+
+-- later(function()
+--    local cmp = require('mini.completion')
+--
+--    cmp.setup()
+--
+--    vim.keymap.set(
+--       'i',
+--       '<C-F>',
+--       function() return cmp.scroll('down') and '' or '<Right>' end,
+--       { expr = true, desc = 'Forward' }
+--    )
+--    vim.keymap.set(
+--       'i',
+--       '<C-B>',
+--       function() return cmp.scroll('up') and '' or '<Left>' end,
+--       { expr = true, desc = 'Backward' }
+--    )
+-- end)
 
 later(function()
    require('mini.pick').setup({
@@ -528,6 +556,33 @@ later(function()
       },
 
       snippets = { preset = 'mini_snippets' },
+
+      completion = {
+         menu = {
+            draw = {
+               components = {
+                  kind_icon = {
+                     text = function(ctx)
+                        local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+                        return kind_icon
+                     end,
+                     -- -- (optional) use highlights from mini.icons
+                     -- highlight = function(ctx)
+                     --    local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                     --    return hl
+                     -- end,
+                  },
+                  kind = {
+                     -- -- (optional) use highlights from mini.icons
+                     -- highlight = function(ctx)
+                     --    local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                     --    return hl
+                     -- end,
+                  },
+               },
+            },
+         },
+      },
    })
 end)
 
@@ -626,73 +681,6 @@ later(function()
          )
       end,
       desc = 'On LSP Attach',
-   })
-
-   vim.lsp.config('lua_ls', {
-      on_init = function(client)
-         if client.workspace_folders then
-            local path = client.workspace_folders[1].name
-            if
-               path ~= vim.fn.stdpath('config')
-               and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
-            then
-               return
-            end
-         end
-
-         client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-            runtime = {
-               -- Most likely LuaJIT in the case of Neovim.
-               version = 'LuaJIT',
-               -- Tell the language server how to find Lua modules same way as Neovim.
-               -- (see `:h lua-module-load`)
-               path = {
-                  'lua/?.lua',
-                  'lua/?/init.lua',
-               },
-            },
-            -- Make the server aware of Neovim runtime files.
-            workspace = {
-               checkThirdParty = false,
-               library = {
-                  vim.env.VIMRUNTIME,
-                  -- Add additional paths here.
-                  '${3rd}/luv/library',
-                  -- '${3rd}/busted/library'
-               },
-               -- Or pull in all of 'runtimepath'.
-               -- NOTE: this is a lot slower and will cause issues when working on
-               -- your own configuration.
-               -- See https://github.com/neovim/nvim-lspconfig/issues/3189
-               -- library = {
-               --   vim.api.nvim_get_runtime_file('', true),
-               -- }
-            },
-         })
-      end,
-      settings = {
-         Lua = {},
-      },
-   })
-
-   local vue_language_server_path = vim.fn.expand('~') .. '/.bun/install/global/node_modules/@vue/language-server'
-   local vue_plugin = {
-      name = '@vue/typescript-plugin',
-      location = vue_language_server_path,
-      languages = { 'vue' },
-      configNamespace = 'typescript',
-   }
-   vim.lsp.config('vtsls', {
-      settings = { vtsls = { tsserver = { globalPlugins = { vue_plugin } } } },
-      filetypes = {
-         'javascript',
-         'javascriptreact',
-         'javascript.jsx',
-         'typescript',
-         'typescriptreact',
-         'typescript.tsx',
-         'vue',
-      },
    })
 
    vim.lsp.enable({

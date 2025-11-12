@@ -61,8 +61,8 @@ vim.keymap.set({ "c", "i" }, "<C-E>", "<End>", { desc = "Eol" })
 vim.keymap.set({ "c", "i" }, "<C-D>", "<Delete>", { desc = "Delete char" })
 vim.keymap.set({ "c", "i" }, "<C-F>", "<Right>", { desc = "Forward char" })
 vim.keymap.set({ "c", "i" }, "<C-B>", "<Left>", { desc = "Backward char" })
-vim.keymap.set("i", "<C-n>", "<Down>", { desc = "Next line" })
-vim.keymap.set("i", "<C-p>", "<Up>", { desc = "Prev line" })
+vim.keymap.set("i", "<C-N>", "<Down>", { desc = "Next line" })
+vim.keymap.set("i", "<C-P>", "<Up>", { desc = "Prev line" })
 
 -- Command.
 vim.keymap.set("c", "<C-O>", "<C-F>", { desc = "Command" })
