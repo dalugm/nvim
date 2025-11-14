@@ -38,11 +38,14 @@ deps.setup({ path = { package = path_package } })
 
 local add, now, later = deps.add, deps.now, deps.later
 
-now(function()
-   require('mini.basics').setup({
-      options = { extra_ui = true },
-   })
-end)
+now(
+   function()
+      require('mini.basics').setup({
+         mappings = { basic = false },
+         options = { extra_ui = true },
+      })
+   end
+)
 
 now(function()
    require('utils')
@@ -260,7 +263,7 @@ later(function()
          { mode = 'x', keys = '<LocalLeader>' },
 
          -- Built-in completion
-         { mode = 'i', keys = '<C-x>' },
+         { mode = 'i', keys = '<C-X>' },
 
          -- `g` key
          { mode = 'n', keys = 'g' },
@@ -275,11 +278,11 @@ later(function()
          -- Registers
          { mode = 'n', keys = '"' },
          { mode = 'x', keys = '"' },
-         { mode = 'i', keys = '<C-r>' },
-         { mode = 'c', keys = '<C-r>' },
+         { mode = 'i', keys = '<C-R>' },
+         { mode = 'c', keys = '<C-R>' },
 
          -- Window commands
-         { mode = 'n', keys = '<C-w>' },
+         { mode = 'n', keys = '<C-W>' },
 
          -- `b` key
          { mode = 'n', keys = 'b' },
@@ -364,33 +367,40 @@ later(function()
    })
 end)
 
--- later(function()
---    local cmp = require('mini.completion')
---
---    cmp.setup()
---
---    vim.keymap.set(
---       'i',
---       '<C-F>',
---       function() return cmp.scroll('down') and '' or '<Right>' end,
---       { expr = true, desc = 'Forward' }
---    )
---    vim.keymap.set(
---       'i',
---       '<C-B>',
---       function() return cmp.scroll('up') and '' or '<Left>' end,
---       { expr = true, desc = 'Backward' }
---    )
--- end)
+later(function()
+   local cmp = require('mini.completion')
+
+   cmp.setup({
+      mappings = {
+         -- -- To handle conflicts with customized keys for popup menu
+         -- vim.keymap.set(
+         --    'i',
+         --    '<C-F>',
+         --    function() return cmp.scroll('down') and '' or '<Right>' end,
+         --    { expr = true, desc = 'Forward' }
+         -- )
+         -- vim.keymap.set(
+         --    'i',
+         --    '<C-B>',
+         --    function() return cmp.scroll('up') and '' or '<Left>' end,
+         --    { expr = true, desc = 'Backward' }
+         -- )
+         scroll_down = '<C-J>',
+         scroll_up = '<C-K>',
+      },
+   })
+
+   vim.lsp.config('*', { capabilities = cmp.get_lsp_capabilities() })
+end)
 
 later(function()
    require('mini.pick').setup({
       mappings = {
-         caret_left = '<C-b>',
-         caret_right = '<C-f>',
+         caret_left = '<C-B>',
+         caret_right = '<C-F>',
 
-         scroll_down = '<C-j>',
-         scroll_up = '<C-k>',
+         scroll_down = '<C-J>',
+         scroll_up = '<C-K>',
       },
    })
 
@@ -518,72 +528,6 @@ now(function()
       function() require('treesitter-context').go_to_context(vim.v.count1) end,
       { noremap = true, desc = 'Jump to context (upwards)' }
    )
-end)
-
-later(function()
-   add({ source = 'saghen/blink.cmp', checkout = 'v1.7.0' })
-   require('blink.cmp').setup({
-      -- 'default' for mappings similar to built-in completions (C-y to accept)
-      -- 'super-tab' for mappings similar to vscode (tab to accept)
-      -- 'enter' for enter to accept
-      -- 'none' for no mappings
-      --
-      -- All presets have the following mappings:
-      -- C-space: Open menu or open docs if already open
-      -- C-n/C-p or Up/Down: Select next/previous item
-      -- C-e: Hide menu
-      -- C-k: Toggle signature help (if signature.enabled = true)
-      --
-      -- See :h blink-cmp-config-keymap for defining your own keymap
-      keymap = {
-         preset = 'enter',
-
-         -- disable <C-e> since we're using readline
-         ['<C-e>'] = false,
-         -- use <C-g> instead
-         ['<C-g>'] = { 'hide', 'fallback' },
-      },
-
-      cmdline = {
-         keymap = {
-            ['<C-g>'] = { 'cancel', 'fallback' },
-         },
-      },
-
-      sources = {
-         -- 'buffer' is for text completions, by default it's only enabled when LSP returns no items
-         default = { 'lsp', 'path', 'snippets', 'buffer' },
-      },
-
-      snippets = { preset = 'mini_snippets' },
-
-      completion = {
-         menu = {
-            draw = {
-               components = {
-                  kind_icon = {
-                     text = function(ctx)
-                        local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
-                        return kind_icon
-                     end,
-                     -- -- (optional) use highlights from mini.icons
-                     -- highlight = function(ctx)
-                     --    local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
-                     --    return hl
-                     -- end,
-                  },
-                  kind = {
-                     -- -- (optional) use highlights from mini.icons
-                     -- highlight = function(ctx)
-                     --    local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
-                     --    return hl
-                     -- end,
-                  },
-               },
-            },
-         },
-      },
-   })
 end)
 
 later(function()
@@ -777,5 +721,6 @@ later(function()
    add({ source = 'folke/tokyonight.nvim' })
    add({ source = 'olimorris/onedarkpro.nvim' })
    add({ source = 'projekt0n/github-nvim-theme' })
+   add({ source = 'p00f/alabaster.nvim' })
    add({ source = 'rebelot/kanagawa.nvim' })
 end)
