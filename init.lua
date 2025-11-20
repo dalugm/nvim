@@ -333,18 +333,17 @@ later(function() require('mini.jump').setup() end)
 
 later(function() require('mini.jump2d').setup() end)
 
+later(function() require('mini.splitjoin').setup() end)
+
 later(function()
   -- Define language patterns to work better with 'friendly-snippets'
   local lang_patterns = {
     -- Recognize language of tree-sitter parser
-    tsx = {
-      'snippets/ecma/javascript.json',
-      'snippets/ecma/typescript.json',
-    },
-    typescript = {
-      'snippets/ecma/javascript.json',
-      'snippets/ecma/typescript.json',
-    },
+    dart = { 'dart.json', 'dart/flutter.json' },
+    javascript = { 'javascript.json', 'ecma/doc.json' },
+    typescript = { 'javascript.json', 'typescript.json', 'ecma/doc.json' },
+    jsx = { 'javascript.json', 'ecma/*.json' },
+    tsx = { 'javascript.json', 'typescript.json', 'ecma/*.json' },
   }
 
   local snp = require('mini.snippets')
@@ -353,46 +352,23 @@ later(function()
   snp.setup({
     snippets = {
       -- Load custom file with global snippets first.
-      snp.gen_loader.from_file(config_path .. '/snippets/snippets/all.json'),
+      snp.gen_loader.from_file(config_path .. '/snippets/global.json'),
       -- Load snippets based on current language by reading files from
       -- "snippets/" subdirectories from 'runtimepath' directories.
       snp.gen_loader.from_lang({ lang_patterns = lang_patterns }),
-      -- snp.gen_loader.from_lang(),
-    },
-  })
-end)
-
-later(function()
-  local cmp = require('mini.completion')
-
-  cmp.setup({
-    mappings = {
-      -- -- To handle conflicts with customized keys for popup menu
-      -- vim.keymap.set(
-      --    'i',
-      --    '<C-F>',
-      --    function() return cmp.scroll('down') and '' or '<Right>' end,
-      --    { expr = true, desc = 'Forward' }
-      -- )
-      -- vim.keymap.set(
-      --    'i',
-      --    '<C-B>',
-      --    function() return cmp.scroll('up') and '' or '<Left>' end,
-      --    { expr = true, desc = 'Backward' }
-      -- )
-      scroll_down = '<C-J>',
-      scroll_up = '<C-K>',
     },
   })
 
-  vim.lsp.config('*', { capabilities = cmp.get_lsp_capabilities() })
+  -- -- Select and insert snippets via completion engine
+  -- -- Call after setup
+  -- snp.start_lsp_server()
 end)
 
 later(function()
   require('mini.pick').setup({
     mappings = {
-      caret_left = '<C-B>',
       caret_right = '<C-F>',
+      caret_left = '<C-B>',
 
       scroll_down = '<C-J>',
       scroll_up = '<C-K>',
@@ -481,6 +457,88 @@ later(function()
     { noremap = true, desc = 'Quickfix' }
   )
   vim.keymap.set('n', '<Leader>v:', pickers.commands, { noremap = true, desc = 'Commands' })
+end)
+
+-- later(function()
+--    local cmp = require('mini.completion')
+--
+--    cmp.setup()
+--
+--    -- To handle conflicts with customized keys for popup menu
+--    vim.keymap.set(
+--       'i',
+--       '<C-F>',
+--       function() return cmp.scroll('down') and '' or '<Right>' end,
+--       { expr = true, desc = 'Forward' }
+--    )
+--    vim.keymap.set(
+--       'i',
+--       '<C-B>',
+--       function() return cmp.scroll('up') and '' or '<Left>' end,
+--       { expr = true, desc = 'Backward' }
+--    )
+--
+--    vim.lsp.config('*', { capabilities = cmp.get_lsp_capabilities() })
+-- end)
+
+later(function()
+  add({ source = 'saghen/blink.cmp', checkout = 'v1.8.0' })
+  require('blink.cmp').setup({
+    keymap = {
+      -- -- 'default' for mappings similar to built-in completions (C-y to accept)
+      -- -- 'super-tab' for mappings similar to vscode (tab to accept)
+      -- -- 'enter' for enter to accept
+      -- -- 'none' for no mappings
+      -- --
+      -- -- All presets have the following mappings:
+      -- -- C-space: Open menu or open docs if already open
+      -- -- C-n/C-p or Up/Down: Select next/previous item
+      -- -- C-e: Hide menu
+      -- -- C-k: Toggle signature help (if signature.enabled = true)
+      -- --
+      -- -- See :h blink-cmp-config-keymap for defining your own keymap
+      -- preset = 'enter',
+
+      -- Make 'enter' work also
+      ['<CR>'] = { 'accept', 'fallback' },
+
+      ['<C-J>'] = { 'scroll_documentation_down', 'fallback' },
+      ['<C-K>'] = { 'scroll_documentation_up', 'fallback' },
+
+      -- Disable from the preset
+      ['<C-F>'] = false,
+      ['<C-B>'] = false,
+    },
+
+    snippets = { preset = 'mini_snippets' },
+
+    completion = {
+      menu = {
+        draw = {
+          components = {
+            kind_icon = {
+              text = function(ctx)
+                local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+                return kind_icon
+              end,
+              -- -- (optional) use highlights from mini.icons
+              -- highlight = function(ctx)
+              --    local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+              --    return hl
+              -- end,
+            },
+            kind = {
+              -- -- (optional) use highlights from mini.icons
+              -- highlight = function(ctx)
+              --    local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+              --    return hl
+              -- end,
+            },
+          },
+        },
+      },
+    },
+  })
 end)
 
 now(function()
