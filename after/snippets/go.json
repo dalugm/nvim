@@ -186,11 +186,7 @@
   },
   "method declaration": {
     "prefix": ["method", "fnm"],
-    "body": [
-      "func (${1:receiver} ${2:type}) ${3:method}($4) $5 {",
-      "\t$0",
-      "}"
-    ],
+    "body": ["func (${1:recv} ${2:type}) ${3:method}($4) {", "\t$0", "}"],
     "description": "Snippet for method declaration"
   }
 }
